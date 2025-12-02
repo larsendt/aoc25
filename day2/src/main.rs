@@ -1,34 +1,33 @@
 use std::fs;
 
-// fn test(mut s: &str, len: usize) -> bool {
-//     if s.len() % len != 0 {
-//         return false;
-//     }
+fn test(mut s: &str, len: usize) -> bool {
+    if s.len() % len != 0 {
+        return false;
+    }
 
-//     let check = &s[..len];
-//     while s.len() > 0 {
-//         s = &s[len..];
-//         dbg!(check, s);
-//         if &s[..len.min(s.len())] != check {
-//             return false;
-//         }
-//     }
+    let check = &s[..len];
+    while s.len() > len {
+        s = &s[len..];
+        if &s[..len] != check {
+            return false;
+        }
+    }
 
-//     check == s
-// }
+    check == s
+}
 
-// fn test_all(s: &str) -> bool {
-//     if s.len() == 1 {
-//         return true;
-//     }
+fn test_all(s: &str) -> bool {
+    if s.len() == 1 {
+        return false;
+    }
 
-//     let mut ok = false;
-//     for l in 1..(s.len() / 2) + 1 {
-//         ok |= test(s, l);
-//     }
+    let mut ok = false;
+    for l in 1..(s.len() / 2) + 1 {
+        ok |= test(s, l);
+    }
 
-//     ok
-// }
+    ok
+}
 
 fn test_part1(i: usize) -> bool {
     let div = 10usize.pow((i.ilog10() + 1) / 2) as usize;
@@ -46,7 +45,8 @@ fn main() {
         let lo: usize = sp_range.next().unwrap().parse().unwrap();
         let hi: usize = sp_range.next().unwrap().parse().unwrap();
         for i in lo..hi + 1 {
-            let invalid = test_part1(i);
+            let s = i.to_string();
+            let invalid = test_all(&s);
             if invalid {
                 sum += i;
             }
